@@ -89,7 +89,7 @@ age = 8
       },
     ]
 
-    const chunks: Person[] = await drainItems(parseToml<Person>(readableStreamFrom(toml), { pullOutKey: 'people' }))
+    const chunks: Person[] = await drainItems(parseToml<Person>(readableStreamFrom(toml), { extractArray: 'people' }))
     expect(chunks).toEqual(expectedPeople)
   })
 
@@ -111,7 +111,7 @@ name = 'John'
       },
     ]
 
-    const chunks = await drainItems(parseToml(readableStreamFrom(toml), { pullOutKey: 'people' }))
+    const chunks = await drainItems(parseToml(readableStreamFrom(toml), { extractArray: 'people' }))
     expect(chunks).toEqual(expectedPeople)
   })
 })

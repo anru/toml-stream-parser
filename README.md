@@ -60,7 +60,7 @@ interface Person {
   age: number,
 }
 
-for await (const person of parseToml<Person>(toml, { pullOutKey: 'people' })) {
+for await (const person of parseToml<Person>(toml, { extractArray: 'people' })) {
   console.log(person.name)
 }
 // -> Andrew

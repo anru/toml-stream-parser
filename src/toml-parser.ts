@@ -17,7 +17,7 @@ async function* toLines(chunkIterable: AsyncIterable<string>): AsyncIterable<str
 type AnyRecord = Record<string, any>
 
 interface TOMLParserOptions {
-  pullOutKey?: string,
+  extractArray?: string,
 }
 
 // you can directly pass readable stream here, see https://nodejs.org/api/stream.html#stream_readable_symbol_asynciterator
@@ -25,21 +25,21 @@ async function* parseToml<R extends AnyRecord = AnyRecord>(tomlTextStream: Async
   let current = ''
   let currentLine = 0
 
-  const { pullOutKey } = opts
+  const { extractArray } = opts
 
   const emit = (chunk: R): R[] => {
     let result = []
 
-    if (pullOutKey) {
-      if (chunk && Array.isArray(chunk[pullOutKey])) {
-        const values = chunk[pullOutKey]
+    if (extractArray) {
+      if (chunk && Array.isArray(chunk[extractArray])) {
+        const values = chunk[extractArray]
         for (const value of values) {
           result.push(value)
         }
       } else {
         if (typeof chunk === 'object' && chunk) {
           throw new Error(
-            `Values for keys ${pullOutKey} should be arrays, instead got ${inspect(chunk[pullOutKey], false, 3)}`
+            `Values for keys ${extractArray} should be arrays, instead got ${inspect(chunk[extractArray], false, 3)}`
           )
         } else {
           throw new Error(`Each chunk should be object, instead got ${inspect(chunk, false, 2)}`)
