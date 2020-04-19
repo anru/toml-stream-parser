@@ -26,7 +26,9 @@ district = 'Academgorodok'
 Each inline table will be emitted separately:
 
 ```javascript
-for await (const chunk of parseToml(toml)) {
+const tomlStream = fs.createReadableStream('data.toml')
+
+for await (const chunk of parseToml(tomlStream)) {
   // first chunk will be person
   // second chunk will be place
 }
@@ -52,8 +54,13 @@ age = 8
 
 Parsing code:
 
-```javascript
-for await (const person of parseToml(toml, { pullOutKey: 'people' })) {
+```typescript
+interface Person {
+  name: string,
+  age: number,
+}
+
+for await (const person of parseToml<Person>(toml, { pullOutKey: 'people' })) {
   console.log(person.name)
 }
 // -> Andrew
