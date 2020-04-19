@@ -1,5 +1,8 @@
 # toml-stream-parser
 
+[![Build Status](https://travis-ci.com/anru/toml-stream-parser.svg?branch=master)](https://travis-ci.com/anru/toml-stream-parser)
+[![npm version](https://img.shields.io/npm/v/toml-stream-parser.svg)](https://www.npmjs.com/package/toml-stream-parser)
+
 Streaming parser for TOML format. Requires Node v10.0.0 or above.
 
 ## Usage

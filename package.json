@@ -15,6 +15,11 @@
   "author": "Andrey Rublev <box@anru.me>",
   "license": "Apache-2.0",
   "private": false,
+  "keywords": [
+    "TOML",
+    "stream",
+    "parser"
+  ],
   "devDependencies": {
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.0",
