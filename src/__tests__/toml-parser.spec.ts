@@ -1,5 +1,10 @@
 import { parseToml } from '../toml-parser'
 
+interface Person {
+  name: string,
+  age: number,
+}
+
 function * strToIterableChunk(s: string, highWaterMark = 15): Iterable<string> {
   let rest = s
 
@@ -84,7 +89,7 @@ age = 8
       },
     ]
 
-    const chunks = await drainItems(parseToml(readableStreamFrom(toml), { pullOutKey: 'people' }))
+    const chunks: Person[] = await drainItems(parseToml<Person>(readableStreamFrom(toml), { pullOutKey: 'people' }))
     expect(chunks).toEqual(expectedPeople)
   })
 
