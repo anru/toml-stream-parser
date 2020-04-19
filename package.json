@@ -1,0 +1,28 @@
+{
+  "name": "toml-stream-parser",
+  "version": "1.0.0",
+  "description": "Parse TOML as a stream",
+  "main": "dist/toml-parser.js",
+  "types": "dist/toml-parser.d.ts",
+  "engines": {
+    "node": ">10.0.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -d -p ."
+  },
+  "repository": "https://github.com/anru/toml-stream-parser",
+  "author": "Andrey Rublev <box@anru.me>",
+  "license": "Apache-2.0",
+  "private": false,
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.0",
+    "jest": "^25.3.0",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.3"
+  }
+}

@@ -1,0 +1,9 @@
+sudo: false
+language: node_js
+node_js:
+  - "10.16.0"
+  - "12.16.2"
+  - "13.13.0"
+cache: npm
+script:
+  - yarn test

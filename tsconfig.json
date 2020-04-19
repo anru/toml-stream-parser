@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "es2018",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "lib": [
+      "es2015.generator",
+      "es2015.promise",
+      "es2015.iterable",
+      "es2015.symbol",
+      "esnext.asynciterable",
+      "es2015",
+      "es2016",
+      "es2016",
+      "es2017",
+      "es7"
+    ],
+    "baseUrl": "src",
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "sourceMap": false
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/__tests__/**/*"
+  ]
+}
