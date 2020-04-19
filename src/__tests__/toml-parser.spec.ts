@@ -1,5 +1,4 @@
 import { parseToml } from '../toml-parser'
-import { Readable } from 'stream'
 
 function * strToIterableChunk(s: string, highWaterMark = 15): Iterable<string> {
   let rest = s
@@ -11,8 +10,8 @@ function * strToIterableChunk(s: string, highWaterMark = 15): Iterable<string> {
 }
 
 
-function readableStreamFrom(tomlStr: string, highWaterMark: number = 15): AsyncIterable<string> {
-  return Readable.from(strToIterableChunk(tomlStr, highWaterMark))
+async function * readableStreamFrom(tomlStr: string, highWaterMark: number = 15): AsyncIterable<string> {
+  yield * strToIterableChunk(tomlStr, highWaterMark)
 }
 
 async function drainItems<T>(asyncIterator: AsyncIterable<T>): Promise<Array<T>> {
