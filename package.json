@@ -1,6 +1,6 @@
 {
   "name": "toml-stream-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parse TOML as a stream",
   "main": "dist/toml-parser.js",
   "types": "dist/toml-parser.d.ts",

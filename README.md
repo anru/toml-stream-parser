@@ -11,7 +11,7 @@ Streaming parser for TOML format. Requires Node v10.0.0 or above.
 import { parseToml } from 'toml-stream-parser'
 ```
 
-The parser takes AsyncIterable<string> (or ReadbleStream such as it also [implements](https://nodejs.org/api/stream.html#stream_readable_symbol_asynciterator) this interface) as input and returns, also asyncIterable consisting of TOML chunks separated by inline tables or an array of inline tables:
+The parser takes AsyncIterable<string> (or ReadableStream such as it also [implements](https://nodejs.org/api/stream.html#stream_readable_symbol_asynciterator) this interface) as input and returns, also AsyncIterable consisting of TOML chunks separated by inline tables or an array of inline tables:
 
 ```toml
 [person]
