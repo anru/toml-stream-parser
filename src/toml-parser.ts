@@ -2,6 +2,8 @@ import * as TOML from '@iarna/toml'
 import { inspect } from 'util'
 
 const EOL = /\r?\n/g
+const MULTILINE_START = /=\s*"""/g
+const MULTILINE_END = /"""\s*$/g
 
 async function* toLines(chunkIterable: AsyncIterable<string>): AsyncIterable<string> {
   let remaining: string = ''
@@ -50,11 +52,32 @@ async function* parseToml<R extends AnyRecord = AnyRecord>(tomlTextStream: Async
     }
     return result
   }
-  
+
+  let topLevelItemStartSequence: string
+  let inMultilineString = false
+
   function* process(line: string | null): Iterable<R> {
     const isEof = line === null
-    // In exceptional cases it may lead to errors, but we will consider it not our case.
-    if (isEof || line!.startsWith('[')) {
+    const trimmedLine = line?.trimLeft()
+
+    if (!isEof) {
+      if (!inMultilineString && MULTILINE_START.test(trimmedLine!)) {
+        inMultilineString = true
+      } else if (inMultilineString && MULTILINE_END.test(trimmedLine!)) {
+        inMultilineString = false
+      }
+
+      if (!topLevelItemStartSequence) {
+        if (trimmedLine!.startsWith('[[')) {
+          topLevelItemStartSequence = '[['
+        } else if (trimmedLine!.startsWith('[')) {
+          topLevelItemStartSequence = '['
+        }
+      }
+    }
+
+
+    if (isEof || (!inMultilineString && topLevelItemStartSequence && trimmedLine!.startsWith(topLevelItemStartSequence))) {
       if (current) {
         let chunk
         try {
@@ -62,8 +85,12 @@ async function* parseToml<R extends AnyRecord = AnyRecord>(tomlTextStream: Async
         } catch (e) {
           throw new Error(`TOML parser error (chunk offset line is ${currentLine}):\n${e.toString()}`)
         }
+
         current = ''
-        yield * emit(chunk)
+        // empty text or text with comment is valid TOML
+        if (Object.keys(chunk).length > 0) {
+          yield* emit(chunk)
+        }
       }
     }
     if (!isEof) {

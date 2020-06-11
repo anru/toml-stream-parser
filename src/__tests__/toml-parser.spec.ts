@@ -100,6 +100,11 @@ name = 'John'
   [people.params]
   account = 546_456
   abc = "Hello"
+  
+[[people]]
+name = 'Key'
+  [people.params]
+  account = 1234
 `
     const expectedPeople = [
       {
@@ -109,9 +114,70 @@ name = 'John'
           abc: 'Hello',
         },
       },
+      {
+        name: 'Key',
+        params: {
+          account: 1234,
+        },
+      },
     ]
 
-    const chunks = await drainItems(parseToml(readableStreamFrom(toml), { extractArray: 'people' }))
+    const chunks = await drainItems(parseToml(readableStreamFrom(toml), {extractArray: 'people'}))
+    expect(chunks).toEqual(expectedPeople)
+  })
+
+  it('arrays of tables with multiline strings with brackets', async () => {
+    const toml = `
+[[people]]
+name = """
+[test]"""
+[people.params]
+account = 546_456
+
+[[people]]
+name = 'Man'
+`
+    const expectedPeople = [
+      {
+        name: '[test]',
+        params: {
+          account: 546456
+        }
+      },
+      {
+        name: 'Man',
+      },
+    ]
+
+    const chunks = await drainItems(parseToml(readableStreamFrom(toml), {extractArray: 'people'}))
+    expect(chunks).toEqual(expectedPeople)
+  })
+
+  it('skip empty lines and comments', async () => {
+    const toml = `
+# Top comment
+[[people]]
+name = """
+[test]"""
+[people.params]
+account = 546_456
+
+[[people]]
+name = 'Man'
+`
+    const expectedPeople = [
+      {
+        name: '[test]',
+        params: {
+          account: 546456
+        }
+      },
+      {
+        name: 'Man',
+      },
+    ]
+
+    const chunks = await drainItems(parseToml(readableStreamFrom(toml), {extractArray: 'people'}))
     expect(chunks).toEqual(expectedPeople)
   })
 })
